@@ -24,7 +24,7 @@ from tlm.utils.completion_utils import generate_completion  # noqa: E402
 from tlm.types import Completion, SemanticEval, SimilarityMeasure  # noqa: E402
 
 # Load environment variables from .env file at top level of project
-project_root = os.path.abspath(os.path.join(os.path.dirname(__file__), "..", "..", "..", "..", ".."))
+project_root = os.path.abspath(os.path.join(os.path.dirname(__file__), "..", ".."))
 load_dotenv(os.path.join(project_root, ".env"))
 
 
