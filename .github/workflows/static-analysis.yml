@@ -33,4 +33,6 @@ jobs:
           key: pre-commit-3|${{ steps.setup-python.outputs.python-version }}|${{ hashFiles('.pre-commit-config.yaml') }}
 
       - name: Run linting
-        run: uv run pre-commit run --all-files
+        run: |
+          source .venv/bin/activate
+          pre-commit run --all-files
