@@ -61,3 +61,8 @@ profile = "black"
 
 [tool.hatch.build.targets.wheel]
 packages = ["tlm"]
+
+[dependency-groups]
+dev = [
+    "mypy>=1.19.1",
+]

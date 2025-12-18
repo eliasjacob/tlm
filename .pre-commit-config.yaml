@@ -21,7 +21,7 @@ repos:
         name: mypy
         language: system
         files: ^.*.py$
-        entry: /bin/bash -c "uv sync --frozen --no-install-project && uv run mypy tlm/ tests/"
+        entry: /bin/bash -c "uv sync --frozen --extra dev && uv run mypy tlm/ tests/"
 
   - repo: https://github.com/pre-commit/pre-commit-hooks
     rev: v4.6.0
