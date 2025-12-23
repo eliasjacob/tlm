@@ -10,9 +10,11 @@ Use TLM to:
 - Discover incorrect LLM (or human) generated outputs in datasets/logs
 - Boost AI accuracy
 
-Powered by *uncertainty estimation* techniques, TLM **works out of the box**, and does **not** require: data preparation/labeling work or custom model training/serving infrastructure.
+Powered by *uncertainty estimation* techniques, TLM **works out of the box**, and does **not** require: <br>
+data preparation/labeling work or custom model training/serving infrastructure.
 
-Learn more and see precision/recall benchmarks with frontier models (from OpenAI, Anthropic, Google, etc): [Blog](https://cleanlab.ai/blog/), [Research Paper](https://aclanthology.org/2024.acl-long.283/)
+Learn more and see precision/recall benchmarks with frontier models (from OpenAI, Anthropic, Google, etc): <br>
+[Blog](https://cleanlab.ai/blog/), [Research Paper](https://aclanthology.org/2024.acl-long.283/)
 
 ## Usage
 
