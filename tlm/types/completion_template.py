@@ -63,13 +63,21 @@ class CompletionTemplate(BaseModel):
             overrides["logprobs"] = None
             overrides["top_logprobs"] = None
         elif self.use_logprobs is True:
-            logprobs_supported = model_provider.model in MODELS_WITH_LOGPROBS or "logprobs" in (
-                get_supported_openai_params(model=model_provider.model, custom_llm_provider=model_provider.provider)
-                or {}
-            )
-            if logprobs_supported and self.use_logprobs:
+            logprobs_supported = model_provider.model in MODELS_WITH_LOGPROBS
+            top_logprobs_override = None
+
+            if logprobs_supported:
                 overrides["logprobs"] = True
-                overrides["top_logprobs"] = settings.TOP_LOGPROBS
+                model_supported_params = get_supported_openai_params(
+                    model=model_provider.model, custom_llm_provider=model_provider.provider
+                )
+                if model_supported_params and "top_logprobs" in model_supported_params:
+                    top_logprobs_override = settings.TOP_LOGPROBS
+            else:
+                overrides["logprobs"] = False
+
+            overrides["top_logprobs"] = top_logprobs_override
+
         return overrides
 
     def format_messages(
