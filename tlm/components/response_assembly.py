@@ -86,11 +86,16 @@ class ResponseAssembly(Component):
         else:
             consistency_scores_for_best_answer = np.array([])
 
+        if np.isnan(consistency_scores).all():
+            mean_consistency_score = np.nan
+        else:
+            mean_consistency_score = float(np.nanmean(consistency_scores))
+
         explainability_message = get_explainability_message(
             average_confidence_score,
             self_reflection_completions,
             observed_consistency_completions,
-            np.nanmean(consistency_scores),
+            mean_consistency_score,
             consistency_scores_for_best_answer,
             best_answer_idx,
             best_answer,
