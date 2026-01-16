@@ -4,10 +4,11 @@ import asyncio
 import sys
 from openai.types.chat import ChatCompletion
 
-from tlm.config.base import Config, ConfigInput
+from tlm.config.base import BaseConfig
+from tlm.config.schema import Config
 from tlm.config.presets import WorkflowType
 from tlm.inference import InferenceResult, tlm_inference
-from tlm.types import SemanticEval
+from tlm.types import Eval
 
 
 def is_notebook() -> bool:
@@ -28,8 +29,8 @@ class TLM:
 
     def __init__(
         self,
-        config_input: ConfigInput = ConfigInput(),
-        evals: list[SemanticEval] | None = None,
+        config: Config = Config(),
+        evals: list[Eval] | None = None,
     ):
         """Initialize a TLM instance.
 
@@ -40,7 +41,7 @@ class TLM:
             evals: Optional list of evaluations. Each evaluation
                 defines a name, criteria, and optional query/context/response identifiers.
         """
-        self.config_input = config_input
+        self.config = config
         self.evals = evals
 
         is_notebook_flag = is_notebook()
@@ -59,7 +60,7 @@ class TLM:
         self,
         *,
         context: str | None = None,
-        evals: list[SemanticEval] | None = None,
+        evals: list[Eval] | None = None,
         **openai_kwargs: Any,
     ) -> InferenceResult:
         """Create a new LLM completion and then score its trustworthiness.
@@ -102,7 +103,7 @@ class TLM:
         *,
         response: ChatCompletion | dict[str, Any],
         context: str | None = None,
-        evals: list[SemanticEval] | None = None,
+        evals: list[Eval] | None = None,
         **openai_kwargs: Any,
     ) -> InferenceResult:
         """Score the trusworthiness of an existing LLM response/completion (from any LLM, or even from a human-writer).
@@ -144,7 +145,7 @@ class TLM:
         *,
         response: dict[str, Any] | None = None,
         context: str | None = None,
-        evals: list[SemanticEval] | None = None,
+        evals: list[Eval] | None = None,
         **openai_kwargs: Any,
     ) -> InferenceResult:
         """Internal async method that performs the inference or scoring operation.
@@ -157,10 +158,10 @@ class TLM:
             openai_args=openai_kwargs,
             score=response is not None,
             rag=(context is not None),
-            constrain_outputs=self.config_input.constrain_outputs,
+            constrain_outputs=self.config.constrain_outputs,
         )
         model = openai_kwargs.get("model")
-        config = Config.from_input(self.config_input, workflow_type, model)
+        config = BaseConfig.from_input(self.config, workflow_type, model)
         return await tlm_inference(
             completion_params=openai_kwargs,
             response=response,

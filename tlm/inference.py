@@ -1,14 +1,25 @@
 from typing import Any, TypedDict
 
-from tlm.config.base import Config
+from tlm.config.base import BaseConfig
 from tlm.config.presets import WorkflowType
 from tlm.pipeline import PipelineFactory
-from tlm.types import SemanticEval, CompletionParams
+from tlm.types import Eval, CompletionParams
 from tlm.utils.scoring.semantic_evaluation_scoring_utils import DEFAULT_RAG_EVALS
 
 
 class InferenceResult(TypedDict):
-    response: str | dict[str, Any]  # either a response string or OpenAI chat completion dict
+    """Result returned from TLM inference.
+
+    Attributes:
+        response: Either a response string or dictionary representation of an OpenAI chat completion.
+        trustworthiness_score: Score indicating the trustworthiness of the response, between 0 and 1.
+        usage: Token usage information for the inference, including prompt and completion tokens.
+        metadata: Optional metadata, e.g. per-field scores for structured outputs.
+        evals: Optional dictionary of Eval scores, keyed by evaluation name.
+        explanation: Explanation for the trustworthiness score.
+    """
+
+    response: str | dict[str, Any]
     trustworthiness_score: float
     usage: dict[str, Any]
     metadata: dict[str, Any] | None
@@ -20,9 +31,9 @@ async def tlm_inference(
     *,
     completion_params: CompletionParams,
     response: dict[str, Any] | None,
-    evals: list[SemanticEval] | None,
+    evals: list[Eval] | None,
     context: str | None,
-    config: Config,
+    config: BaseConfig,
 ) -> InferenceResult:
     if evals is None and config.workflow_type == WorkflowType.RAG:
         evals = DEFAULT_RAG_EVALS
