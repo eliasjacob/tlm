@@ -13,9 +13,10 @@ Use TLM to:
 Powered by *uncertainty estimation* techniques, TLM **works out of the box**, and does **not** require: <br>
 data preparation/labeling work or custom model training/serving infrastructure.
 
-Learn more and see precision/recall benchmarks with frontier models (from OpenAI, Anthropic, Google, etc): <br>
+
+## Resources
+
+- [Documentation and Tutorials](https://cleanlab.github.io/tlm/)
+- [Example Notebooks](notebooks)
+- Learn more and see precision/recall benchmarks with frontier models (from OpenAI, Anthropic, Google, etc): <br>
 [Blog](https://cleanlab.ai/blog/), [Research Paper](https://aclanthology.org/2024.acl-long.283/)
-
-## Usage
-
-See [notebooks](notebooks) for Jupyter notebooks with example usage.
